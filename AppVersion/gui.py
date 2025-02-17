@@ -80,7 +80,7 @@ class ColorBlocksApp:
         # Adjust send button style for consistency
         style.configure('Send.TButton', font=("TkDefaultFont", 14), padding=(15, 15))
         
-        self.button1 = ttk.Button(buttons_frame, text="DeepThink(R1)", style='Dark.TButton',
+        self.button1 = ttk.Button(buttons_frame, text="ShallowThink(R1)", style='Dark.TButton',
                                 command=lambda: self.toggle_button_color(self.button1))
         self.button1.grid(row=0, column=0, padx=10, pady=10, sticky=(tk.W, tk.E))
         
@@ -224,7 +224,7 @@ class ColorBlocksApp:
             # Clear input text immediately after sending
             self.input_text.delete("1.0", tk.END)
             
-            # Check if DeepThink button is pressed
+            # Check if ShallowThink button is pressed
             if self.button1.state() == ('pressed',):
                 # Generate random thinking time between 5-20 seconds
                 import random
@@ -232,7 +232,7 @@ class ColorBlocksApp:
                 
                 # Show initial thinking message in a separate block
                 self.output_text.insert(tk.END, '\n\n')  # Add extra spacing before thinking message
-                thinking_message = f"thinking for {think_time} seconds"
+                thinking_message = f"Thinking for {think_time} seconds"
                 self.output_text.insert(tk.END, thinking_message, 'assistant_message')
                 self.output_text.see(tk.END)
                 self.output_text.update()

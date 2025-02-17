@@ -3,14 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const outputText = document.getElementById('outputText');
     const inputText = document.getElementById('inputText');
     const sendButton = document.getElementById('sendButton');
-    const deepThinkButton = document.getElementById('deepThinkButton');
+    const ShallowThinkButton = document.getElementById('ShallowThinkButton');
     const searchButton = document.getElementById('searchButton');
     const attachButton = document.getElementById('attachButton');
     const messageLabel = document.getElementById('messageLabel');
 
     // Initialize button states
     let isProcessing = false;
-    const buttons = [deepThinkButton, searchButton];
+    const buttons = [ShallowThinkButton, searchButton];
     let activeButton = null;
 
     // Show welcome dialog on load
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
             inputText.value = '';
 
             // Process based on button states
-            if (deepThinkButton.classList.contains('active')) {
-                handleDeepThink(userInput);
+            if (ShallowThinkButton.classList.contains('active')) {
+                handleShallowThink(userInput);
             } else if (searchButton.classList.contains('active')) {
                 handleSearch(userInput);
             } else {
@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    async function handleDeepThink(input) {
+    async function handleShallowThink(input) {
         const thinkTime = Math.floor(Math.random() * 16) + 5; // 5-20 seconds
-        const thinkingMessage = `thinking for ${thinkTime} seconds`;
+        const thinkingMessage = `Thinking for ${thinkTime} seconds`;
         const thinkingDiv = document.createElement('div');
         thinkingDiv.className = 'assistant-message';
         thinkingDiv.textContent = thinkingMessage;
