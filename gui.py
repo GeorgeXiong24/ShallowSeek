@@ -104,74 +104,38 @@ class ColorBlocksApp:
         self.message_label.grid_remove()
     
     def show_attach_message(self):
-        file_path = tk.filedialog.askopenfilename()
-        if file_path:
-            # Process the input using the C++ processor
-            try:
-                processor_path = './output/processor'
-                if not os.path.exists(processor_path):
-                    raise FileNotFoundError(f"Processor file not found at {processor_path}. Please make sure the C++ processor is compiled.")
-                
-                process = subprocess.Popen([processor_path], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
-                response, error = process.communicate(input="fuck")
-                
-                if process.returncode != 0:
-                    raise RuntimeError(f"Processor exited with error code {process.returncode}")
-                
-                if error:
-                    raise RuntimeError(f"Processor error: {error}")
-                
-                # Enable output text widget for updating
-                self.output_text.configure(state='normal')
-                
-                # Configure tags for message styling if not already configured
-                if not 'user_message' in self.output_text.tag_names():
-                    self.output_text.tag_configure('user_message', justify='right', background='#5865F2', foreground='white', lmargin1=50, rmargin=8, spacing1=10, spacing3=5, font=("TkDefaultFont", 14))
-                    self.output_text.tag_configure('assistant_message', justify='left', background='#383A40', foreground='white', lmargin1=8, rmargin=50, spacing1=10, spacing3=5, font=("TkDefaultFont", 14))
-                self.output_text.tag_configure('processing_message', justify='left', background='#383A40', foreground='white', lmargin1=8, rmargin=50, spacing1=10, spacing3=5, font=("TkDefaultFont", 10))
-                
-                # Add file upload message
-                self.output_text.insert(tk.END, '\n')
-                self.output_text.insert(tk.END, f"What the fuck is the file you have uploaded\n", 'assistant_message')
-                
-                # Disable output text widget after updating
-                self.output_text.configure(state='disabled')
-                # Scroll to the bottom of output
-                self.output_text.see(tk.END)
-                
-            except Exception as e:
-                dialog = tk.Toplevel(self.root)
-                dialog.title("")
-                dialog.geometry("300x150")
-                dialog.configure(bg='#2B2D31')
-                dialog.transient(self.root)
-                dialog.grab_set()
-                
-                # Center the dialog window relative to the main window
-                dialog.geometry("+{}+{}".format(
-                    self.root.winfo_x() + (self.root.winfo_width() - 300) // 2,
-                    self.root.winfo_y() + (self.root.winfo_height() - 150) // 2
-                ))
-                
-                # Configure dialog layout
-                dialog.grid_rowconfigure(0, weight=1)
-                dialog.grid_rowconfigure(1, weight=1)
-                dialog.grid_columnconfigure(0, weight=1)
-                
-                # Add error message label
-                message_label = ttk.Label(dialog, text=str(e), style='Dark.TLabel', font=("TkDefaultFont", 12))
-                message_label.grid(row=0, column=0, padx=20, pady=(20, 10))
-                
-                # Add OK button
-                ok_button = ttk.Button(dialog, text="OK", style='Dark.TButton', command=dialog.destroy)
-                ok_button.grid(row=1, column=0, pady=(0, 20))
-                
-                # Bind Enter key to close dialog
-                dialog.bind('<Return>', lambda event: dialog.destroy())
-                
-                # Make dialog modal
-                dialog.focus_set()
-                dialog.wait_window()
+        dialog = tk.Toplevel(self.root)
+        dialog.title("")
+        dialog.geometry("300x150")
+        dialog.configure(bg='#2B2D31')
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Center the dialog window relative to the main window
+        dialog.geometry("+{}+{}".format(
+            self.root.winfo_x() + (self.root.winfo_width() - 300) // 2,
+            self.root.winfo_y() + (self.root.winfo_height() - 150) // 2
+        ))
+        
+        # Configure dialog layout
+        dialog.grid_rowconfigure(0, weight=1)
+        dialog.grid_rowconfigure(1, weight=1)
+        dialog.grid_columnconfigure(0, weight=1)
+        
+        # Add message label
+        message_label = ttk.Label(dialog, text="Attach File is Unavailable", style='Dark.TLabel', font=("TkDefaultFont", 12))
+        message_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        
+        # Add OK button
+        ok_button = ttk.Button(dialog, text="OK", style='Dark.TButton', command=dialog.destroy)
+        ok_button.grid(row=1, column=0, pady=(0, 20))
+        
+        # Bind Enter key to close dialog
+        dialog.bind('<Return>', lambda event: dialog.destroy())
+        
+        # Make dialog modal
+        dialog.focus_set()
+        dialog.wait_window()
     
     def hide_message(self):
         self.message_label.grid_remove()
