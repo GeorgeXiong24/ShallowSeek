@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.className = className;
         messageDiv.textContent = text;
         outputText.appendChild(messageDiv);
+        // Ensure smooth scrolling to the latest message
+        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
         outputText.scrollTop = outputText.scrollHeight;
     }
 
@@ -140,6 +142,35 @@ document.addEventListener('DOMContentLoaded', () => {
             isProcessing = true;
             buttons.forEach(btn => btn.disabled = true);
             sendButton.disabled = true;
+            
+            // Handle basic greetings in multiple languages
+            const greetings = {
+                en: ['hello', 'hi', 'hey', 'greetings'],
+                zh: ['你好', '嗨', '喂', '您好']
+            };
+            const input_lower = input.toLowerCase();
+            if (Object.values(greetings).flat().includes(input_lower)) {
+                addMessage('Hello! How can I assist you today?', 'assistant-message');
+                return;
+            }
+            
+            // Handle model information query in multiple languages
+            const modelKeywords = {
+                en: ['what', 'which', 'model', 'llm', 'language model', 'ai'],
+                zh: ['什么', '哪个', '模型', '大模型', '语言模型', '人工智能']
+            };
+            
+            const isModelQuery = (
+                Object.values(modelKeywords).flat().some(keyword => input_lower.includes(keyword)) &&
+                Object.values(modelKeywords).flat().some(keyword => 
+                    ['model', 'llm', '模型', '大模型'].includes(keyword) && input_lower.includes(keyword)
+                )
+            );
+            
+            if (isModelQuery) {
+                addMessage('I am ShallowSeek, a custom AI assistant. I aim to help you with various tasks while maintaining a focused and efficient conversation.', 'assistant-message');
+                return;
+            }
             
             addMessage('Processing...', 'processing-message');
             const controller = new AbortController();
