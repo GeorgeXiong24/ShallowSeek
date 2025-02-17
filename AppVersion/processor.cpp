@@ -27,7 +27,7 @@ int main() {
     } else if (input == "你是什么大模型"||input =="What large model are you" ||input =="what large model are you") {
         output = "I am ShallowSeek.";
     } else if (ContainsFuck(input)){
-        output = "Please be polite motherfucker.";
+        output = "Please be polite.";
     } else {
         output = "The server is busy. Please try again later.";
     }
